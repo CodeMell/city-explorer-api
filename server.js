@@ -8,7 +8,7 @@ app.get("/", (request, response) => {
 });
 
 app.get("/weather", (request, response) => {
-    response.send("Hi there");
+    response.send("Yeet");
 });
 
 
@@ -16,6 +16,6 @@ app.get("/about", (request, response) => {
     response.send("<h1>About</h1>");
 });
 
-app.listen(3000, () => {
-    console.log("Listen on the port 3000...");
+app.listen(3001, () => {
+    console.log("Listen on the port 3001...");
 });
