@@ -1,7 +1,12 @@
 const express = require("express");
-const app = express();
 // Read in the weather from our "Database"
 const data = require('./data/weather.json');
+
+const app = express();
+
+class Report {
+    
+}
 
 app.get("/", (request, response) => {
     response.send("Hi there");
