@@ -1,26 +1,44 @@
+'use strict'
+
+require('dotenv').config(); // enables process.env.
 const express = require("express");
-// Read in the weather from our "Database"
+const cors = require('cors');
+// read weather database
 const data = require('./data/weather.json');
 
 const app = express();
 
-class Report {
-    
+// middleware
+app.use(cors());
+
+
+
+class Forecast {
+    constructor(datetime, description){
+        this.date = datetime;
+        this.description = description;
+    }
 }
 
-app.get("/", (request, response) => {
-    response.send("Hi there");
+app.get("/", (req, res) => {
+    res.send("Hi there");
 });
 
-app.get("/weather", (request, response) => {
-    response.send("Yeet");
+// get lon, lat, and searchQuery from the form
+app.get("/weather", (req, res) => {
+    let searchQuery = req.query.searchQuery;
+    let lat = req.query.lat;
+    let lon = req.query.lon;
+    let a = {
+        lat,
+        lon,
+        searchQuery
+    };
+    res.send(a);
 });
+//localhost:3001/weather?lat=...&lon=...&searchQuery=...
 
-
-app.get("/about", (request, response) => {
-    response.send("<h1>About</h1>");
-});
-
-app.listen(3001, () => {
-    console.log("Listen on the port 3001...");
+// page url
+app.listen(process.env.PORT, () => {
+    console.log(`Listen on the port ${process.env.PORT}...`);
 });
