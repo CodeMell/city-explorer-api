@@ -35,11 +35,7 @@ app.get("/weather", (req, res) => {
         searchQuery
     };
     let cityW = data.find((location) => {
-        return(
-            location.lat == lat ||
-            location.lon == lon ||
-            location.searchQuery == searchQuery
-        )
+   
     });
     
     res.send(a);
