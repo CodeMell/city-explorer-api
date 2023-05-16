@@ -14,8 +14,10 @@ app.use(cors());
 
 
 class Forecast {
-    constructor(datetime, description){
-        this.date = datetime;
+    constructor(valid_date, description){
+        // date of weather
+        this.valid_date = valid_date;
+        // get weather description
         this.description = description;
     }
 }
@@ -23,6 +25,7 @@ class Forecast {
 app.get("/", (req, res) => {
     res.send("Hi there");
 });
+
 
 // get lon, lat, and searchQuery from the form
 app.get("/weather", (req, res) => {
@@ -34,13 +37,33 @@ app.get("/weather", (req, res) => {
         lon,
         searchQuery
     };
-    let cityW = data.find((location) => {
-   
+    let cityData = data.find(e => {
+        return(
+            a.lat === e.lat &&
+            a.lon === e.lon &&
+            a.searchQuery === e.city_name
+        )
     });
-    
-    res.send(a);
+    if(cityData != undefined){
+        console.log(cityData);
+    }else{
+        console.log("ERROR: data undefined");
+    }
+    let daysOfWeather =  cityData.data.map((day) => {
+        return new Forecast(day.valid_date, day.weather.description)
+    });
+    if(!daysOfWeather){
+        let err = Error("500 Server Error");
+        err.status = 500;
+        next(err);
+    }
+    res.send(daysOfWeather);
 });
-//localhost:3001/weather?lat=...&lon=...&searchQuery=...
+
+app.use((err, req, res, next) => {
+    console.error(err);
+    res.status(500).send(err.message);
+});
 
 // page url
 app.listen(process.env.PORT, () => {
