@@ -3,6 +3,7 @@
 require('dotenv').config(); // enables process.env.
 const express = require("express");
 const cors = require('cors');
+const axios = require('axios');
 // read weather database
 const data = require('./data/weather.json');
 
@@ -29,26 +30,28 @@ app.get("/", (req, res) => {
 
 // get lon, lat, and searchQuery from the form
 app.get("/weather", (req, res) => {
-    let searchQuery = req.query.searchQuery;
-    let lat = req.query.lat;
-    let lon = req.query.lon;
-    let a = {
-        lat,
-        lon,
-        searchQuery
-    };
-    let cityData = data.find(e => {
-        return(
-            a.lat === e.lat &&
-            a.lon === e.lon &&
-            a.searchQuery === e.city_name
-        )
-    });
-    if(cityData != undefined){
-        console.log(cityData);
-    }else{
-        console.log("ERROR: data undefined");
-    }
+    // let searchQuery = req.query.searchQuery;
+    // let lat = req.query.lat;
+    // let lon = req.query.lon;
+    // let a = {
+    //     lat,
+    //     lon,
+    //     searchQuery
+    // };
+    // let cityData = data.find(e => {
+    //     return(
+    //         a.lat === e.lat &&
+    //         a.lon === e.lon &&
+    //         a.searchQuery === e.city_name
+    //     )
+    // });
+    // if(cityData != undefined){
+    //     console.log(cityData);
+    // }else{
+    //     console.log("ERROR: data undefined");
+    // }
+    axios.use(process.env.WEATHER_API_KEY)
+
     let daysOfWeather =  cityData.data.map((day) => {
         return new Forecast(day.valid_date, day.weather.description)
     });
