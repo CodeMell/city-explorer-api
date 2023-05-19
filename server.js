@@ -49,16 +49,13 @@ app.get("/movies", async(req, res) => {
     let searchQuery = req.query.searchQuery;
     let moviesAPI= await axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${process.env.MOVIE_API_KEY}&query=${searchQuery}&page=1&include_adult=false`);
     console.log(moviesAPI);
-    let movieOfTheDay =  moviesAPI.data.data.map((day) => {
-        return new Movie(movie.title, movie.overview, movie.vote_average, movie.votes_count, movie.popularity, movie.release_date)
-    });
-    if(!movieOfTheDay){
+    let movieData = moviesAPI.data
+    if(!movieData){
         let err = Error("500 Server Error");
         err.status = 500;
         next(err);
     }
-    res.send(movieOfTheDay);
-    
+    res.send(movieData);
 });
 
 // get lon, lat, and searchQuery from the form
