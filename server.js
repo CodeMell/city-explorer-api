@@ -4,6 +4,7 @@ require('dotenv').config(); // enables process.env.
 const express = require("express");
 const cors = require('cors');
 const axios = require('axios');
+const NodeCache = require( "node-cache" );
 // read weather database
 const data = require('./data/weatherAPI.json');
 
